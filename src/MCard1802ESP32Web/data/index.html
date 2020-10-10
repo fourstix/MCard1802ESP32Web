@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="icon" href="data:,">
+<!-- link for css stylesheet in SPIFFS -->
+<link rel="stylesheet" type="text/css" href="style.css">
+<title>COSMAC ELF</title>
+</head>
+
+<!-- Script definitions -->
+
+<script type="text/javascript">
+//AJAX function to update components periodically
+//url - rest API to invoke
+//cbFunction - callback function to handle response
+function updateFrontPanel(url, cbFunction) {
+  var xhttp = new XMLHttpRequest();
+  xhttp.onreadystatechange = function() {
+    if (this.readyState == 4 && this.status == 200) {
+       cbFunction(this);
+    }
+  };
+  xhttp.open("GET", url, true);
+  xhttp.send();
+}
+
+//Callback functions
+function ctrlUpdate(xhttp) {
+  document.getElementById("ctrl").innerHTML = xhttp.responseText;
+}
+
+function memUpdate(xhttp) {
+  document.getElementById("mem").innerHTML = xhttp.responseText;
+}
+
+function qUpdate(xhttp) {
+  var pic = document.getElementById("q");
+  pic.src = xhttp.responseText + ".gif";
+  pic.alt = xhttp.responseText;
+}
+
+function hiUpdate(xhttp) {
+  var pic = document.getElementById("hi");
+  pic.src = xhttp.responseText + ".png";
+  pic.alt = xhttp.responseText;
+}
+
+function loUpdate(xhttp) {
+  var pic = document.getElementById("lo");
+  pic.src = xhttp.responseText + ".png";
+  pic.alt = xhttp.responseText;
+}
+
+//Invoke update functions every half second
+setInterval(function ( ) {
+  updateFrontPanel("/ctrl", ctrlUpdate);
+  updateFrontPanel("/memory", memUpdate);
+  updateFrontPanel("/qbit", qUpdate);
+  updateFrontPanel("/hi", hiUpdate);
+  updateFrontPanel("/lo", loUpdate);
+}, 500 );
+
+//function to handle a key press
+function keypress(key) {
+     var xhr = new XMLHttpRequest();
+     xhr.open("GET", "/input?key=" + key, true);
+     xhr.send();
+}
+</script>
+
+<!-- HTML layout -->
+<body>
+<h1>COSMAC ELF</h1>
+<table class="center">
+  <tr>
+  <!-- Q LED image is set by AJAX call -->
+  <td style="text-align:center"><img id = "q" src="off.gif" alt="off"></td>
+  <td>&nbsp;</td>
+  <td colspan="2" rowspan="2" style="text-align:center">
+  <!-- these two byte images are set by AJAX calls -->
+  <img id="hi" src="0.png" alt="0">&nbsp;<img id="lo" src="0.png" alt="0"></td>
+  <!-- Control status text set by AJAX call -->
+  <td style="text-align:center"><div id="ctrl">Reset</div></td>
+  </tr>
+  <tr>
+  <td style="text-align:center">Q</td>
+  <td>&nbsp;</td>
+  <!-- these two cells occupied by display images above -->
+  <!-- these two cells occupied by display images above -->
+  <!-- Memory state text is set by AJAX call -->
+  <td style="text-align:center"><div id="mem">Read/Write</div></td>
+  </tr>
+  <tr>
+    <td><button onclick="keypress('C')"; class="button1">C</button></td>
+    <td><button onclick="keypress('D')"; class="button1">D</button></td>
+    <td><button onclick="keypress('E')"; class="button1">E</button></td>
+    <td><button onclick="keypress('F')"; class="button1">F</button></td>
+    <td><button onclick="keypress('G')"; class="button2">Run</button></td>
+  </tr>
+  <tr>
+    <td><button onclick="keypress('8')"; class="button1">8</button></td>
+    <td><button onclick="keypress('9')"; class="button1">9</button></td>
+    <td><button onclick="keypress('A')"; class="button1">A</button></td>
+    <td><button onclick="keypress('B')"; class="button1">B</button></td>
+    <td><button onclick="keypress('W')"; class="button2">Wait</button></td>
+  </tr>
+  <tr>
+    <td><button onclick="keypress('4')"; class="button1">4</button></td>
+    <td><button onclick="keypress('5')"; class="button1">5</button></td>
+    <td><button onclick="keypress('6')"; class="button1">6</button></td>
+    <td><button onclick="keypress('7')"; class="button1">7</button></td>
+    <td><button onclick="keypress('L')"; class="button2">Load</button></td>
+  </tr>
+  <tr>
+    <td><button onclick="keypress('0')"; class="button1">0</button></td>
+    <td><button onclick="keypress('1')"; class="button1">1</button></td>
+    <td><button onclick="keypress('2')"; class="button1">2</button></td>
+    <td><button onclick="keypress('3')"; class="button1">3</button></td>
+    <td><button onclick="keypress('R')"; class="button2">Reset</button></td>
+  </tr>
+<tr>
+  <td>&nbsp;</td>
+  <!-- changed onmouseup="keypress('I')"; ontouchend="keykpress('I') to onclick -->
+  <td colspan="2" style="text-align:center"><button onmousedown="keypress('H')";  ontouchstart="keypress('H')"; onclick="keypress('I')"; class="button1">Input</button></td>
+  <td>&nbsp;</td>
+  <td><button onclick="keypress('M')";  class="button2">M/P</button></td>
+</tr>
+</table>
+</body>
+</html>

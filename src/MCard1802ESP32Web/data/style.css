@@ -1,0 +1,16 @@
+<style>
+html { font-family: Helvetica; display: inline-block; margin: 0px auto; text-align: center;}
+h1 {text-align: center;}
+p {text-align: center;}
+div {text-align: center;}
+.button1 {background-color: #CDAE70; border: none; border-radius: 8px; color: white; padding: 16px 32px; 
+text-decoration: none; font-size: 30px; margin: 2px; cursor: pointer; border-bottom: solid 4px #627295;border-radius:3px;}
+.button1:active { -webkit-transform: translateY(4px);transform: translateY(4px);border-bottom: none;}  
+.center {margin-left: auto;margin-right: auto;}
+.button2 {background-color: #4CAF50; width: 100%; border: none; color: white; padding: 16px 32px;");
+text-decoration: none; font-size: 30px; margin: 2px; cursor: pointer;border-bottom: solid 4px #627295;border-radius:3px;}
+.button2:active { -webkit-transform: translateY(4px);transform: translateY(4px);border-bottom: none;}
+.center {margin-left: auto;margin-right: auto;}   
+</style>
+
+
