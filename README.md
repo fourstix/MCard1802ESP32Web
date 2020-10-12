@@ -163,7 +163,7 @@ Repository Contents
   * style.css -- Cascading style sheet that defines the two button styles
   * index.html -- HTML file that defines the page layout, JavaScript and AJAX functions.
 * **/hardware/v1** -- PCB source files
-  * MCard1802I2CFrontPanelv1Gerbers.zip -- Gerber files submitted to [JCLPCB](https://jlcpcb.com/) to build version 1 of the I2C Front Panel Card.
+  * MCard1802I2CFrontPanelv1Gerbers.zip -- Gerber files submitted to [JLCPCB](https://jlcpcb.com/) to build version 1 of the I2C Front Panel Card.
   * MCardI2CFrontPanelv1KiCad.zip -- KiCad 4.07 project files for version 1 of the I2C Front Panel Card.
 * **/docs** -- documentation files
   * MCard1802I2CFrontPanel.pdf -- schematic for IC2 Front Panel Card.
