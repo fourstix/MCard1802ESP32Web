@@ -329,7 +329,7 @@ void loop() {
   } //if control_data != old_control_data
 
   
-  //If the key data has changed write to 1802
+  //If the key buffer data has changed write to 1802
   if (data_in != old_data_in) {
     writeDataIn(data_in);
     //Save key data after sending out
@@ -341,11 +341,11 @@ void loop() {
     #endif
    } //if data_in != old_data_in  
 
-  //Read data out and q bit periodically
+  //Read data out bus and q bit periodically
   if (millis() - t_data_read > DATA_READ_INTERVAL) {
     //Save previous data before reading
     old_data_out = data_out;
-    //Read the input data
+    //Read the data bus
     data_out = readDataOut();
 
     //Save previous q value before reading
