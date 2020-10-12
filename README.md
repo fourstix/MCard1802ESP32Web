@@ -128,13 +128,13 @@ The Input button also invokes keypress() for onmousedown and ontouchstart events
 
 I2C Front Panel
 ---------------
-The I2C Front Panel card provides the MCP23008 GPIO Extender for control lines, a 7400 Quad Nand logic chip for Memory Protect and inverse Q for serial communication TX line
+The I2C Front Panel card provides the MCP23008 GPIO Extender for control lines, a 7400 Quad Nand logic chip for the Memory Protect logic and to invert Q for serial communication TX line
 and MCP23017 GPIO Expander for data lines along with a voltage regulator to provide 5v to the Membership Card if designed.  Jumpers can select if the Membership Card runs at
-the I2C voltage level or the 5v level.
+the I2C voltage level or the 5v level.  There is also an LED to show the status of the Q line.
 
 The GPIO expanders support 3.3v to 5v level shifting, so the I2C inputs can be either 3.3v level or 5v level.  This allows the ESP32 to communicate with the Membership Card
-running at 5v without separate level shifters for the I2C lines.  The I2C Front Panel card was based on the Front Panel Card design from the
-[MCard1802ArduinoV2](https://github.com/fourstix/MCard1802ArduinoV2) project.
+running at 5v without separate level shifters for the I2C lines.  If desired, jumpers can be changed so the entire card runs at 3.3v.  The I2C Front Panel card was based on
+the Front Panel Card design from the [MCard1802ArduinoV2](https://github.com/fourstix/MCard1802ArduinoV2) project.
 
 <table class="table table-hover table-striped table-bordered">
   <tr align="center">
