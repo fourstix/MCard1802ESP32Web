@@ -6,12 +6,12 @@ with a hexadecimal keypad, an LED, video and an expansion bus. Like many high sc
 and spent my hard-earned dollars to buy a kit from Netronics [based on their ads.](http://www.cosmacelf.com/gallery/netronics-ads/)
 
 My orignal Elf II was lost in a move long ago, but today Lee Hart's [1802 Membership card.](http://www.sunrise-ev.com/1802.htm) 
-duplicates the orignal elf hardware. I saw a very cool demo of a project named [ESP32 Web Hex Keypad](https://github.com/kanpapa/esp32_web_hex_keypad)
+duplicates the orignal elf hardware. I saw a very cool video demo of a project named [ESP32 Web Hex Keypad](https://github.com/kanpapa/esp32_web_hex_keypad)
 that used an ESP32 based web interface and relays to drive an 1802 VIP computer.
 
 I wanted to do something similar to provide a web interface for the 1802 Membership Card using an ESP32. The web page layout
-and graphics simulates the Netronics Elf II interface.  The ESP32 based web code communicates through an I2C based interface card 
-to the 1802 Membership card and uses AJAX to update the web display.  The Arduino IDE with the ESP32 and SPIFFS extensions
+and graphics simulate the Netronics Elf II interface.  The ESP32 based web code communicates through an I2C based interface card 
+to the 1802 Membership card and uses AJAX to update the web display.  The Arduino IDE with the ESP32 and SPIFFS extensions installed
 was used to develop the code and upload it to the ESP32.
 
 Description:
@@ -27,17 +27,17 @@ available in this project.
 
 
 The MCard1802ESP32Web code uses the [ESPAsyncWebServer](https://github.com/me-no-dev/ESPAsyncWebServer) to serve the web pages from the
-[ESP32 SPIFFS file system.](https://github.com/me-no-dev/arduino-esp32fs-plugin)  There are two files in SPIFFS, the style sheet style.css 
-and the HTML file index.html.  The style sheet contains the two button styles and the HTML file contains all the 
-JavaScript for the AJAX (Asynchronous JavaScript and XML) logic for updating the web.
+[ESP32 SPIFFS file system.](https://github.com/me-no-dev/arduino-esp32fs-plugin)  There are two files stored in SPIFFS, the style sheet named style.css 
+and the HTML file named index.html.  The style sheet contains the two button styles and the HTML file contains all the 
+JavaScript for the AJAX (Asynchronous JavaScript and XML) logic for updating the web.  These two files are served from SPIFFS by the ESPAsyncWebServer.
 
-The ESP32 code contains three tabs.  The main tab file MCard1802ESP32Web.ino contains all the definitions for the Web Server, including the REST API
-called by the buttons and AJAX functions.  It also includes all the SPIFFS definitions for the graphics files.  The ESPAsynchWebServer is
-completely defined in the setup routine.  The loop routine queries the status of the Membership Card periodically and updates the 
+The ESP32 code contains three tab files.  The main tab file MCard1802ESP32Web.ino contains all the definitions for the Web Server, including the REST API
+called by the buttons and AJAX functions.  It also includes all the server routes defined for serving the SPIFFS files and the graphics files.  The ESPAsynchWebServer is
+completely defined in the setup() function.  The loop() routine queries the status of the Membership Card periodically and updates the 
 status variables.
 
 The second tab file MCard1802I2CFrontEnd.ino contains the logic for the MCP23008 and MCP23017 GPIO extenders used to communicate to the Membership Card.
-The loop function periodically calls these functions to get status from the membership card and also invokes these functions whenever a button
+The loop function periodically calls these functions to get the status of the membership card and also invokes these functions whenever a button
 is pressed.
 
 The third tab file secrets.h contains the network SSID and password constants used to connect to the network.  Please be sure to replace the dummy
@@ -57,7 +57,7 @@ Additional documentation and other information are availble from Herb Johnson's
 Information on the ESP32AsynchWeb server can be found at Random Nerd Tutorials in the
 [ESP32 SPIFFS Web Server](https://randomnerdtutorials.com/esp32-web-server-spiffs-spi-flash-file-system/) tutorial.
 
-This code largely follows that example except that it uses AJAX rather than templates to update the web display.
+This code largely follows ESP32 SPIFFS Web Server tutorial example except that it uses AJAX rather than templates to update the web display.
 Using AJAX allows the Membership Card to update the web display asynchronously without any user action like a page
 reresh.  Information about AJAX can be found at w3schools [AJAX Information](https://www.w3schools.com/js/js_ajax_intro.asp) page.
 W3Schools also has a very good [CSS](https://www.w3schools.com/css/default.asp), [JavaScript](https://www.w3schools.com/js/default.asp)
@@ -101,9 +101,9 @@ will invoke the REST API and then pass the response to the appropriate call back
 will then update the web element.  The setInterval() function updates the Q LED, data bus byte graphics, memory
 status text and control status text every 500 milliseconds.
 
-The script section also defines the handler for each input key press.  The keypress function will invoke the input REST API and pass
+The script section also defines the handler for each input key press.  The keypress() function will invoke the input REST API and pass
 the key value as a query parameter.  The following server route defined in the [MCard1802ESP32Web.ino](https://github.com/fourstix/MCard1802ESP32Web/blob/main/src/MCard1802ESP32Web/MCard1802ESP32Web.ino)
-setup() function strips the key's character value from the query parameter and passes it to the prossesChar() function which
+setup() function takes the key's character value from the query parameter and passes it to the prossesChar() function which
 performs the action for the key.
 ```arduino
   //Route for input keys
@@ -123,13 +123,15 @@ performs the action for the key.
 
 ```
 
-The HTML body consists of a layout table to define the input key button definitions.  The keypress function is invoked for the onclick event.
-The input button also invokes keypress for onmousedown and ontouchstart events to simulate cases where the input button is held down for a period of time.
+The HTML body consists of a layout table to define the location of the graphics and the input key buttons.  The keypress() function is invoked for the onclick event.
+The Input button also invokes keypress() for onmousedown and ontouchstart events to simulate cases where the input button is held down for a period of time.
 
 I2C Front Panel
 ---------------
-The I2C Front Panel card provides the MCP23008 for control lines, a 7400 Quad Nand logic chip for Memory Protect and inverse Q for serial communication TX line and MCP23017 IO Expander for data lines
-along with a voltage regulator to provide 5v to the Membership Card if designed.  Jumpers can select if the Membership Card runs at the I2C voltage level or the 5v level.
+The I2C Front Panel card provides the MCP23008 GPIO Extender for control lines, a 7400 Quad Nand logic chip for Memory Protect and inverse Q for serial communication TX line
+and MCP23017 GPIO Expander for data lines along with a voltage regulator to provide 5v to the Membership Card if designed.  Jumpers can select if the Membership Card runs at
+the I2C voltage level or the 5v level.
+
 The GPIO expanders support 3.3v to 5v level shifting, so the I2C inputs can be either 3.3v level or 5v level.  This allows the ESP32 to communicate with the Membership Card
 running at 5v without separate level shifters for the I2C lines.  The I2C Front Panel card was based on the Front Panel Card design from the
 [MCard1802ArduinoV2](https://github.com/fourstix/MCard1802ArduinoV2) project.
