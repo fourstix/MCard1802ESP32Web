@@ -20,8 +20,8 @@ Description:
 For the I2C interface, this code uses an updated version of the [MCard1802ArduinoV2](https://github.com/fourstix/MCard1802ArduinoV2)
 Front Panel card.  The Front Panel Card consists of an MCP23008 I2C 8 bit port expander to drive the 1802 Control lines,
 a 7400 Quad Nand logic chip for Write Enable and Serial Communication logic, and an MCP23017 I2C dual port IO expander to communicate
-with the 1802 Membership Card's data in and data out lines. The [Gerber files](https://github.com/fourstix/MCard1802ESP32Web/blob/main/hardware/v1/MCard1802I2CFrontPanelv1Gerbers.zip)
-[KiCad files](https://github.com/fourstix/MCard1802ESP32Web/blob/main/hardware/v1/MCard1802I2CFrontPanelv1KiCad.zip) and
+with the 1802 Membership Card's data in and data out lines. The [Gerber](https://github.com/fourstix/MCard1802ESP32Web/blob/main/hardware/v1/MCard1802I2CFrontPanelv1Gerbers.zip) files,
+the [KiCad](https://github.com/fourstix/MCard1802ESP32Web/blob/main/hardware/v1/MCardI2CFrontPanelv1KiCad.zip) files and
 [schematic](https://github.com/fourstix/MCard1802ESP32Web/blob/main/docs/MCard1802I2CFrontPanel.pdf) for the printed circuit board are
 available in this project.
 
