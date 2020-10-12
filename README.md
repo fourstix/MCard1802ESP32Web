@@ -40,3 +40,72 @@ is pressed.
 
 The third tab secrets.h contains the network SSID and password constants used to connect to the network.  Please be sure to replace the dummy
 values in this file with the actual values required to connect to your own Wifi network.
+
+Introduction
+-------------
+
+A very good source of information on the RCA 1802 chip and Cosmac Elf computer can be found on the 
+[CosmacElf web page.](http://www.cosmacelf.com) The 1802 was a fantastic microprocessor that still has quite a 
+dedicated following today.
+
+The 1802 Membership card is available from Lee Hart on his [website.](http://www.sunrise-ev.com/1802.htm)  
+Additional documentation and other information are availble from Herb Johnson's 
+[1802 Membership Card wesite.](http://www.retrotechnology.com/memship/memship.html)
+
+Information on the ESP32AsynchWeb server can be found at Random Nerd Tutorials in the
+[ESP32 SPIFFS Web Server](https://randomnerdtutorials.com/esp32-web-server-spiffs-spi-flash-file-system/) tutorial.
+
+This code largely follows that example except that it uses AJAX rather than templates to update the web display.
+Using AJAX allows the Membership Card to update the web display asynchronously without any user action like a page
+reresh.  Information about AJAX can be found at w3schools [AJAX Information](https://www.w3schools.com/js/js_ajax_intro.asp) page.
+W3Schools also has a very good [CSS](https://www.w3schools.com/css/default.asp), [JavaScript](https://www.w3schools.com/js/default.asp)
+and [HTML](https://www.w3schools.com/html/default.asp) tutorials.
+
+HTML
+----
+
+The HTML file [index.html](https://github.com/fourstix/MCard1802ESP32Web/blob/main/src/MCard1802ESP32Web/data/index.html)
+contains the web page layout for the input buttons and the AJAX logic to invoke the server REST API and update
+the web page with the Membership Card status.
+
+The tags in the header section are standard tags plus the link to the style sheet in SPIFFS.
+```html
+<link rel="stylesheet" type="text/css" href="style.css">
+```
+This link invokes the following server route definition in the [MCard1802ESP32Web.ino](https://github.com/fourstix/MCard1802ESP32Web/blob/main/src/MCard1802ESP32Web/MCard1802ESP32Web.ino)
+setup() function to serve the style sheet.
+```arduino
+  //Route to load style.css file
+  server.on("/style.css", HTTP_GET, [](AsyncWebServerRequest *request){
+    request->send(SPIFFS, "/style.css", "text/css");
+  });
+```
+
+The script section of the HTML file contains the definitions for the AJAX function updateFrontPanel(url, cbFunction).  This function
+will invoke the REST API and then pass the response to the appropriate call back function.  Each call back function
+will then update the web element.  The setInterval() function updates the Q LED, Data byte display graphics, memory
+status text and control status text every 500 milliseconds.
+
+The script section also defines the handler for each input key press.  The keypress function will invoke the input REST API and pass
+the key value as a query parameter.  The following server route defined in the [MCard1802ESP32Web.ino](https://github.com/fourstix/MCard1802ESP32Web/blob/main/src/MCard1802ESP32Web/MCard1802ESP32Web.ino)
+setup() function strips the key's character value from the query parameter and passes it to the prossesChar() function.
+```arduino
+  //Route for input keys
+  server.on("/input", HTTP_GET, [](AsyncWebServerRequest *request){
+    if(request->hasParam("key")) {
+      AsyncWebParameter* param = request->getParam("key");
+      char key =  param->value().charAt(0);
+      
+    #if DEBUG
+      Serial.print(F("Key: "));
+      Serial.println(key);
+    #endif
+    processChar(key);
+    } //if request->hasParam("key")
+    request->send(SPIFFS, "/index.html", "text/html");
+  });
+
+```
+
+The HTML body consists of a layout table to define the input key button definitions.  The keypress function is invoked by the onclick method.
+The input button also invokes keypress onmousedown and ontouchstart to simulate cases where the input button is held down for a period of time.
