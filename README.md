@@ -132,15 +132,15 @@ running at 5v without separate level shifters for the I2C lines.
 
 <table class="table table-hover table-striped table-bordered">
   <tr align="center">
-   <td><img src="https://github.com/fourstix/MCard1802ESP32Web/blob/master/pics/WebPage.jpg"></td> 
-   <td><img src="https://github.com/fourstix/MCard1802ESP32Web/blob/master/pics/I2CFrontPanelCard.jpg"></td> 
+   <td><img src="https://github.com/fourstix/MCard1802ESP32Web/blob/main/pics/WebPage.jpg"></td> 
+   <td><img src="https://github.com/fourstix/MCard1802ESP32Web/blob/main/pics/I2CFrontPanelCard.jpg"></td> 
   </tr>
   <tr align="center">
     <td>ESP32 Web Page shown in Firefox browser</td>
     <td>ESP3 and, I2C Front Panel card with 1802 Membership Card connected.</td>
   </tr>
   <tr align="center">
-    <td colspan="2"><img src="https://github.com/fourstix/MCard1802ESP32Web/blob/master/pics/I2CFrontPanelSchematic.jpg"></td>
+    <td colspan="2"><img src="https://github.com/fourstix/MCard1802ESP32Web/blob/main/pics/I2CFrontPanelSchematic.jpg"></td>
   </tr>
   <tr align="center">
       <td colspan="2">I2C Front Panel Card Schematic</td>
