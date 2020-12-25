@@ -38,12 +38,12 @@ MCP23017 mcpData = MCP23017(MCP_DATA);
 void setupMcpCommunication() {
   //Set up MCP23017 for data lines
   mcpData.init();
-  mcpData.portMode(MCP23017_PORT::A, 0);         //Port A as ouput
-  mcpData.portMode(MCP23017_PORT::B, 0b11111111);//Port B as input
+  mcpData.portMode(MCP23017Port::A, 0);         //Port A as ouput
+  mcpData.portMode(MCP23017Port::B, 0b11111111);//Port B as input
 
   //Initialize GPIO ports
-  mcpData.writeRegister(MCP23017_REGISTER::GPIOA, 0x00);
-  mcpData.writeRegister(MCP23017_REGISTER::GPIOB, 0x00);
+  mcpData.writeRegister(MCP23017Register::GPIO_A, 0x00);
+  mcpData.writeRegister(MCP23017Register::GPIO_B, 0x00);
     
   //Set up MCP23008 for control lines
   mcpCtrl.begin(MCP_CTRL);
@@ -67,14 +67,14 @@ void writeControlData(byte ctrl_data) {
 
 //Write data to MCard1802 Data In lines
 void writeDataIn(byte d_in) {
-  mcpData.writeRegister(MCP23017_REGISTER::GPIOA, d_in);
+  mcpData.writeRegister(MCP23017Register::GPIO_A, d_in);
   //wait a bit after writing
   delay(10);  
 } //writeDataIn
 
 //Read data from MCard1802 Data out lines
 byte readDataOut() {
-  byte result = mcpData.readPort(MCP23017_PORT::B);
+  byte result = mcpData.readPort(MCP23017Port::B);
   //wait a bit after reading
   delay(10);
   return result;
@@ -184,20 +184,12 @@ void processChar(char c) {
     break;
 
     
-    //Toggle the input hold flag
+    //Simulate holding the input button down
     case 'H':
-//      //Just in case we missed a button up message
-//      if (hold_input) {
-//        hold_input = false;   
-//        #if DEBUG
-//          Serial.println(F("Release Input button."));        
-//        #endif
-//      } else {
         hold_input = true;
         #if DEBUG
           Serial.println(F("Hold Input button."));
         #endif
-//      } //if-else hold_input
     break;
 
     //Set the control flags for Run (Go) state
